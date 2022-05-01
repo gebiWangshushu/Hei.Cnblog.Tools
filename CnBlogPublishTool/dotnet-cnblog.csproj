@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <!-- Optional performance setting - enables tiered JIT compilation-->
+    <TieredCompilation>true</TieredCompilation>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon>program.ico</ApplicationIcon>
+    <PackageId>dotnet-cnblog</PackageId>
+    <Authors>stulzq</Authors>
+    <Company>stulzq</Company>
+    <Product>dotnet-cnblog</Product>
+    <Description>Cnblogs Article Quick Release Tool.</Description>
+    <Copyright>Copyright 2018 stulzq</Copyright>
+    <PackageProjectUrl>https://github.com/stulzq/CnBlogPublishTool</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/stulzq/CnBlogPublishTool/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>cnblogs</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.3.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MetaWeblogClient.Core" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Polly" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="test.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
