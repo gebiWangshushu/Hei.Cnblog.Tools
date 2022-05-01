@@ -50,6 +50,7 @@ namespace Hei.Cnblog.Tools
             File.WriteAllText(Const.CnblogSettingPath, JsonConvert.SerializeObject(connInfo));
 
             MessageBox.Show("配置账号成功");
+            this.Close();
         }
     }
 }

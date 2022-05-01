@@ -7,7 +7,7 @@
     <!-- Optional performance setting - enables tiered JIT compilation-->
     <TieredCompilation>true</TieredCompilation>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <ApplicationIcon>program.ico</ApplicationIcon>
+    <!--<ApplicationIcon>program.ico</ApplicationIcon>-->
     <PackageId>dotnet-cnblog</PackageId>
     <Authors>stulzq</Authors>
     <Company>stulzq</Company>

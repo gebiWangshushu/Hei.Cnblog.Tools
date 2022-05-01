@@ -3,6 +3,7 @@ using CnBlogPublishTool.Processor;
 using CnBlogPublishTool.Util;
 using MetaWeblogClient;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.IO;
 
@@ -104,32 +105,77 @@ namespace Hei.Cnblog.Tools
 
         private void panel2_DragEnter(object sender, DragEventArgs e)
         {
-            if (e?.Data?.GetDataPresent("dragnode") != null)
+            var treeNode = e?.Data?.GetDataPresent("dragnode") != null;
+
+            if (treeNode == false)
             {
-                e.Effect = DragDropEffects.Copy;
+                if (e?.Data?.GetDataPresent(DataFormats.FileDrop) != null)
+                {
+                    e.Effect = DragDropEffects.Copy;
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
             }
             else
             {
-                e.Effect = DragDropEffects.None;
+                if (e?.Data?.GetDataPresent("dragnode") != null)
+                {
+                    e.Effect = DragDropEffects.Copy;
+                }
+                else
+                {
+                    e.Effect = DragDropEffects.None;
+                }
             }
         }
 
         private void panel2_DragDrop(object sender, DragEventArgs e)
         {
-            object item = e.Data.GetData("dragnode");
-            TreeNode node = (TreeNode)item;
-
-            if (File.Exists(Const.CnblogSettingPath) == false)
+            try
             {
-                new Form2().Show();
-            }
-            else
-            {
-                ImageUploader.Init(Const.CnblogSettingPath, Const.TeaKey);
-            }
+                if (File.Exists(Const.CnblogSettingPath) == false)
+                {
+                    new Form2().ShowDialog();
+                    return;
+                }
+                else
+                {
+                    ImageUploader.Init(Const.CnblogSettingPath, Const.TeaKey);
+                }
 
-            this.textConsole.Text += $"正在处理文件：{node.Name}\r\n";
-            ProcessFile(node.Name);
+                object nodeItem = e.Data.GetData("dragnode");
+
+                if (nodeItem != null)
+                {
+                    TreeNode node = (TreeNode)nodeItem;
+                    this.textConsole.Text += $"正在处理文件：{node.Name}\r\n";
+                    ProcessFile(node.Name);
+                }
+                else
+                {
+                    string dropFilePath = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+                    var extension = Path.GetExtension(dropFilePath);
+                    if (extension.Contains(".md", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ProcessFile(dropFilePath);
+                    }
+                    else if (Const.SupportImageType.Contains(extension, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var imgUrl = ImageUploader.Upload(dropFilePath);
+                        this.textConsole.Text += $"图片{dropFilePath} 上传成功 \r\n {imgUrl}\r\n![{Path.GetFileName(dropFilePath)}]({imgUrl})\r\n";
+                    }
+                    else
+                    {
+                        MessageBox.Show("只支持上传markdown文件和图片！");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.textConsole.Text += ex.Message + ex.StackTrace;
+            }
         }
 
         private void ProcessFile(string filePath)
@@ -249,6 +295,11 @@ namespace Hei.Cnblog.Tools
         private void about_Click(object sender, EventArgs e)
         {
             new Form3().ShowDialog();
+        }
+
+        private void sourceCode_Click(object sender, EventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://github.com/gebiwangshushu/hei.cnblog.tools") { UseShellExecute = true });
         }
     }
 }

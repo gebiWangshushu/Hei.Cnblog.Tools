@@ -53,14 +53,14 @@
             this.textUserName.Location = new System.Drawing.Point(73, 89);
             this.textUserName.Name = "textUserName";
             this.textUserName.Size = new System.Drawing.Size(356, 27);
-            this.textUserName.TabIndex = 1;
+            this.textUserName.TabIndex = 7;
             // 
             // textPassword
             // 
             this.textPassword.Location = new System.Drawing.Point(73, 123);
             this.textPassword.Name = "textPassword";
             this.textPassword.Size = new System.Drawing.Size(356, 27);
-            this.textPassword.TabIndex = 3;
+            this.textPassword.TabIndex = 8;
             // 
             // label2
             // 
@@ -76,7 +76,7 @@
             this.btnComfirm.Location = new System.Drawing.Point(14, 165);
             this.btnComfirm.Name = "btnComfirm";
             this.btnComfirm.Size = new System.Drawing.Size(415, 29);
-            this.btnComfirm.TabIndex = 4;
+            this.btnComfirm.TabIndex = 9;
             this.btnComfirm.Text = "确认";
             this.btnComfirm.UseVisualStyleBackColor = true;
             this.btnComfirm.Click += new System.EventHandler(this.btnComfirm_Click);

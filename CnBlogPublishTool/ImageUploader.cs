@@ -14,14 +14,20 @@ namespace CnBlogPublishTool
 
         public static void Init(BlogConnectionInfo info)
         {
-            BlogClient = new Client(info);
+            if (BlogClient == null)
+            {
+                BlogClient = new Client(info);
+            }
         }
 
         public static void Init(string path, byte[] teaKey)
         {
-            var info = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(path));
-            info.Password = Encoding.UTF8.GetString(TeaHelper.Decrypt(Convert.FromBase64String(info.Password), teaKey));
-            BlogClient = new Client(info);
+            if (BlogClient == null)
+            {
+                var info = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(path));
+                info.Password = Encoding.UTF8.GetString(TeaHelper.Decrypt(Convert.FromBase64String(info.Password), teaKey));
+                BlogClient = new Client(info);
+            }
         }
 
         public static string Upload(string filePath)
@@ -32,6 +38,10 @@ namespace CnBlogPublishTool
              });
             try
             {
+                if (BlogClient == null)
+                {
+                    throw new Exception("未正确初始化账号");
+                }
                 var url = policy.Execute<string>(() =>
                 {
                     FileInfo fileinfo = new FileInfo(filePath);

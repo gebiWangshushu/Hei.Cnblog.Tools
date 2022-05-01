@@ -43,6 +43,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sourceCode = new System.Windows.Forms.ToolStripMenuItem();
             this.about = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -67,11 +68,11 @@
             // btnSelectFold
             // 
             this.btnSelectFold.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectFold.Location = new System.Drawing.Point(1070, 7);
+            this.btnSelectFold.Location = new System.Drawing.Point(1062, 7);
             this.btnSelectFold.Name = "btnSelectFold";
-            this.btnSelectFold.Size = new System.Drawing.Size(95, 29);
+            this.btnSelectFold.Size = new System.Drawing.Size(103, 29);
             this.btnSelectFold.TabIndex = 1;
-            this.btnSelectFold.Text = "打开";
+            this.btnSelectFold.Text = "打开目录...";
             this.btnSelectFold.UseVisualStyleBackColor = true;
             this.btnSelectFold.Click += new System.EventHandler(this.btnSelectFold_Click);
             // 
@@ -82,7 +83,7 @@
             this.comboxPath.FormattingEnabled = true;
             this.comboxPath.Location = new System.Drawing.Point(4, 7);
             this.comboxPath.Name = "comboxPath";
-            this.comboxPath.Size = new System.Drawing.Size(1065, 28);
+            this.comboxPath.Size = new System.Drawing.Size(1055, 28);
             this.comboxPath.TabIndex = 0;
             this.comboxPath.SelectedIndexChanged += new System.EventHandler(this.comboxPath_SelectedIndexChanged);
             // 
@@ -143,8 +144,10 @@
             this.textConsole.Location = new System.Drawing.Point(10, 156);
             this.textConsole.Multiline = true;
             this.textConsole.Name = "textConsole";
+            this.textConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textConsole.Size = new System.Drawing.Size(738, 490);
             this.textConsole.TabIndex = 1;
+            this.textConsole.WordWrap = false;
             // 
             // panel2
             // 
@@ -165,11 +168,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("幼圆", 14.04878F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(288, 106);
+            this.label1.Location = new System.Drawing.Point(128, 106);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(178, 24);
+            this.label1.Size = new System.Drawing.Size(526, 24);
             this.label1.TabIndex = 1;
-            this.label1.Text = "拖曳文件到此处";
+            this.label1.Text = "从右侧拓展或直接拖曳Markdown/图片文件到此处";
             // 
             // pictureBox1
             // 
@@ -186,6 +189,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.配置ToolStripMenuItem,
+            this.sourceCode,
             this.about});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -204,9 +208,16 @@
             // ToolStripMenuItem
             // 
             this.ToolStripMenuItem.Name = "ToolStripMenuItem";
-            this.ToolStripMenuItem.Size = new System.Drawing.Size(231, 28);
+            this.ToolStripMenuItem.Size = new System.Drawing.Size(155, 28);
             this.ToolStripMenuItem.Text = "配置账号";
             this.ToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
+            // 
+            // sourceCode
+            // 
+            this.sourceCode.Name = "sourceCode";
+            this.sourceCode.Size = new System.Drawing.Size(53, 24);
+            this.sourceCode.Text = "源码";
+            this.sourceCode.Click += new System.EventHandler(this.sourceCode_Click);
             // 
             // about
             // 
@@ -227,7 +238,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Cnblog Tool";
+            this.Text = "CnblogTool(嘿~)";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -261,5 +272,6 @@
         private ToolStripMenuItem 配置ToolStripMenuItem;
         private ToolStripMenuItem ToolStripMenuItem;
         private ToolStripMenuItem about;
+        private ToolStripMenuItem sourceCode;
     }
 }
