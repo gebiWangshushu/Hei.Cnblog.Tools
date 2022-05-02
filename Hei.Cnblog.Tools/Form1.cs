@@ -189,7 +189,16 @@ namespace Hei.Cnblog.Tools
         {
             try
             {
-                loadBlogAccount();
+                if (File.Exists(Const.CnblogSettingPath) == false)
+                {
+                    new Form2().ShowDialog();
+                    return;
+                }
+                else
+                {
+                    ImageUploader.Init(Const.CnblogSettingPath, Const.TeaKey);
+                }
+
                 object nodeItem = e.Data.GetData("dragnode");
 
                 if (nodeItem != null)
@@ -342,7 +351,15 @@ namespace Hei.Cnblog.Tools
         {
             if (treeViewFolder.SelectedNode != null)
             {
-                loadBlogAccount();
+                if (File.Exists(Const.CnblogSettingPath) == false)
+                {
+                    new Form2().ShowDialog();
+                    return;
+                }
+                else
+                {
+                    ImageUploader.Init(Const.CnblogSettingPath, Const.TeaKey);
+                }
                 var fileFullName = treeViewFolder.SelectedNode.Name;
                 if (fileFullName.Contains(".md", StringComparison.OrdinalIgnoreCase))
                 {
@@ -352,9 +369,8 @@ namespace Hei.Cnblog.Tools
                         var title = Path.GetFileNameWithoutExtension(fileFullName);
                         var content = File.ReadAllText(treeViewFolder.SelectedNode.Name);
                         var postId = ImageUploader.BlogClient.NewPost(title, content, new List<string> { "[Markdown]" }, false, DateTime.Now);
-                        var postUrl = $"https://www.cnblogs.com/{ImageUploader.BlogClient.BlogConnectionInfo.BlogID}/p/{postId}.html";
-                        echo($"快速编辑文章成功：{postUrl}");
-                        Process.Start(new ProcessStartInfo(postUrl) { UseShellExecute = true });
+                        echo($"快速编辑文章成功：{$"https://www.cnblogs.com/{ImageUploader.BlogClient.BlogConnectionInfo.BlogID}/p/{postId}.html"}");
+                        Process.Start(new ProcessStartInfo($"https://i.cnblogs.com/posts/edit;postId={postId}") { UseShellExecute = true });
                     }
                     catch (Exception ex)
                     {

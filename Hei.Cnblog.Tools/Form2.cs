@@ -45,9 +45,10 @@ namespace Hei.Cnblog.Tools
               this.textPassword.Text
             );
 
-            ImageUploader.Init(connInfo);
             connInfo.Password = Convert.ToBase64String(TeaHelper.Encrypt(Encoding.UTF8.GetBytes(textPassword.Text), Const.TeaKey));
             File.WriteAllText(Const.CnblogSettingPath, JsonConvert.SerializeObject(connInfo));
+            connInfo.Password = textPassword.Text;
+            ImageUploader.Init(connInfo);
 
             MessageBox.Show("配置账号成功");
             this.Close();

@@ -176,7 +176,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(526, 24);
             this.label1.TabIndex = 1;
-            this.label1.Text = "从右侧拓展或直接拖曳Markdown/图片文件到此处";
+            this.label1.Text = "从左侧拖拽或直接拖拽Markdown/图片文件到此处";
             // 
             // pictureBox1
             // 
@@ -236,12 +236,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuItemNewDraft});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 56);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(199, 28);
             // 
             // menuItemNewDraft
             // 
             this.menuItemNewDraft.Name = "menuItemNewDraft";
-            this.menuItemNewDraft.Size = new System.Drawing.Size(214, 24);
+            this.menuItemNewDraft.Size = new System.Drawing.Size(198, 24);
             this.menuItemNewDraft.Text = "快速编辑发布此文";
             this.menuItemNewDraft.Click += new System.EventHandler(this.menuItemNewDraft_Click);
             // 
