@@ -18,6 +18,48 @@ namespace Hei.Cnblog.Tools
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.textConsole.BackColor = Color.FromArgb(41, 49, 52);
+            if (File.Exists(Const.Appsettings))
+            {
+                var config = JsonConvert.DeserializeObject<Appsettings>(File.ReadAllText(Const.Appsettings));
+                if (config.RecentDir?.Dirs?.Count > 0 == true)
+                {
+                    initTreeNode(config.RecentDir.Dirs.Last());
+                    config.RecentDir.Dirs.Reverse();
+                    this.comboxPath.Items.AddRange(config.RecentDir.Dirs.ToArray());
+                }
+            }
+
+            //ImageUploader.Init(Const.CnblogSettingPath, Const.TeaKey);
+            //var postId = ImageUploader.BlogClient.NewPost("测试发布", "测试发布", new List<string> { "[Markdown]" }, false, DateTime.Now);
+            //Process.Start(new ProcessStartInfo($"https://www.cnblogs.com/ChildishChange/p/{postId}.html") { UseShellExecute = true });
+
+            //var editResult = ImageUploader.BlogClient.EditPost("16216527", "测试发布", "测试描述222222222222222222222222222222222222222222222<br>sdsdf", new List<string> { "[Markdown]" }, false);
+        }
+
+        private void setRecentDirs(string path)
+        {
+            if (File.Exists(Const.Appsettings))
+            {
+                var config = JsonConvert.DeserializeObject<Appsettings>(File.ReadAllText(Const.Appsettings));
+                if (config.RecentDir?.Dirs?.Count >= config.RecentDir.MaxRecond)
+                {
+                    config.RecentDir.Dirs[config.RecentDir.MaxRecond - 1] = path;
+                }
+                else
+                {
+                    if (config?.RecentDir?.Dirs?.Contains(path) == true)
+                    {
+                        config.RecentDir?.Dirs.Remove(path);
+                    }
+                    config.RecentDir?.Dirs.Add(path);
+                }
+                File.WriteAllText(Const.Appsettings, JsonConvert.SerializeObject(config));
+            }
+        }
+
         private void btnSelectFold_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -26,7 +68,6 @@ namespace Hei.Cnblog.Tools
             folderBrowserDialog.ShowNewFolderButton = true;
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                // 获取选择目录
                 initTreeNode(folderBrowserDialog.SelectedPath);
             }
         }
@@ -40,7 +81,7 @@ namespace Hei.Cnblog.Tools
 
             initTreeNode(comboxPath.Text, rootNode);
             treeViewFolder.Nodes.Add(rootNode);
-            SetRecentDirs(path);
+            setRecentDirs(path);
         }
 
         private void initTreeNode(string folderPath, TreeNode parentNode)
@@ -131,60 +172,64 @@ namespace Hei.Cnblog.Tools
             }
         }
 
+        private void loadBlogAccount()
+        {
+            if (File.Exists(Const.CnblogSettingPath) == false)
+            {
+                new Form2().ShowDialog();
+                return;
+            }
+            else
+            {
+                ImageUploader.Init(Const.CnblogSettingPath, Const.TeaKey);
+            }
+        }
+
         private void panel2_DragDrop(object sender, DragEventArgs e)
         {
             try
             {
-                if (File.Exists(Const.CnblogSettingPath) == false)
-                {
-                    new Form2().ShowDialog();
-                    return;
-                }
-                else
-                {
-                    ImageUploader.Init(Const.CnblogSettingPath, Const.TeaKey);
-                }
-
+                loadBlogAccount();
                 object nodeItem = e.Data.GetData("dragnode");
 
                 if (nodeItem != null)
                 {
                     TreeNode node = (TreeNode)nodeItem;
-                    this.textConsole.Text += $"正在处理文件：{node.Name}\r\n";
-                    ProcessFile(node.Name);
+                    echo($"正在处理文件：{node.Name}");
+                    processFile(node.Name);
                 }
                 else
                 {
-                    string dropFilePath = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+                    string dropFilePath = ((Array)e.Data?.GetData(DataFormats.FileDrop))?.GetValue(0)?.ToString();
                     var extension = Path.GetExtension(dropFilePath);
                     if (extension.Contains(".md", StringComparison.OrdinalIgnoreCase))
                     {
-                        ProcessFile(dropFilePath);
+                        processFile(dropFilePath);
                     }
                     else if (Const.SupportImageType.Contains(extension, StringComparison.OrdinalIgnoreCase))
                     {
                         var imgUrl = ImageUploader.Upload(dropFilePath);
-                        this.textConsole.Text += $"图片{dropFilePath} 上传成功 \r\n {imgUrl}\r\n![{Path.GetFileName(dropFilePath)}]({imgUrl})\r\n";
+                        echo($"图片{dropFilePath} 上传成功 \r\n {imgUrl}\r\n![{Path.GetFileName(dropFilePath)}]({imgUrl})");
                     }
                     else
                     {
-                        MessageBox.Show("只支持上传markdown文件和图片！");
+                        MessageBox.Show("暂只支持上传markdown文件和图片！");
                     }
                 }
             }
             catch (Exception ex)
             {
-                this.textConsole.Text += ex.Message + ex.StackTrace;
+                echo(ex.Message + ex.StackTrace);
             }
         }
 
-        private void ProcessFile(string filePath)
+        private void processFile(string filePath)
         {
             try
             {
                 if (!File.Exists(filePath))
                 {
-                    this.textConsole.Text += "指定的文件不存在！\r\n";
+                    echo("指定的文件不存在！");
                 }
                 else
                 {
@@ -193,14 +238,14 @@ namespace Hei.Cnblog.Tools
                     var _fileContent = File.ReadAllText(filePath);
                     var imgProcessor = new ImageProcessor();
                     var imgList = imgProcessor.Process(_fileContent);
-                    this.textConsole.Text += $"提取图片成功，共{imgList.Count}个.\r\n";
+                    echo($"提取图片成功，共{imgList.Count}个");
 
                     //循环上传图片
                     foreach (var img in imgList)
                     {
                         if (img.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                         {
-                            this.textConsole.Text += $"{img} 跳过.\r\n";
+                            echo($"{img} 跳过");
                             continue;
                         }
 
@@ -210,7 +255,7 @@ namespace Hei.Cnblog.Tools
                             if (File.Exists(imgPhyPath))
                             {
                                 var imgUrl = ImageUploader.Upload(imgPhyPath);
-                                this.textConsole.Text += $"{img} 上传成功+{++uploadSuccess}. {imgUrl}\r\n";
+                                echo($"{img} 上传成功+{++uploadSuccess}. {imgUrl}");
                                 if (!ReplaceDic.ContainsKey(img))
                                 {
                                     ReplaceDic.Add(img, imgUrl);
@@ -218,12 +263,12 @@ namespace Hei.Cnblog.Tools
                             }
                             else
                             {
-                                this.textConsole.Text += $"{img} 未发现文件.\r\n";
+                                echo($"{img} 未发现文件");
                             }
                         }
                         catch (Exception e)
                         {
-                            this.textConsole.Text += e.Message + e.StackTrace;
+                            echo(e.Message + e.StackTrace);
                         }
                     }
 
@@ -234,13 +279,22 @@ namespace Hei.Cnblog.Tools
                     }
                     File.WriteAllText(filePath, _fileContent, EncodingType.GetType(filePath));
 
-                    this.textConsole.Text += $"共提取图片{imgList.Count}，上传成功{uploadSuccess}张，处理完成!\r\n";
+                    echo($"共提取图片{imgList.Count}，上传成功{uploadSuccess}张，处理完成!");
                 }
             }
             catch (Exception e)
             {
-                this.textConsole.Text += e.Message + e.StackTrace;
+                echo(e.Message + e.StackTrace);
             }
+        }
+
+        /// <summary>
+        /// 输出一行到控制台
+        /// </summary>
+        /// <param name="content"></param>
+        private void echo(string content)
+        {
+            this.textConsole.Text += $"{content}\r\n";
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -260,38 +314,6 @@ namespace Hei.Cnblog.Tools
             new Form2().ShowDialog();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.textConsole.BackColor = Color.FromArgb(41, 49, 52);
-            if (File.Exists(Const.Appsettings))
-            {
-                var config = JsonConvert.DeserializeObject<Appsettings>(File.ReadAllText(Const.Appsettings));
-                if (config.RecentDir?.Dirs?.Count > 0 == true)
-                {
-                    initTreeNode(config.RecentDir.Dirs.Last());
-                    config.RecentDir.Dirs.Reverse();
-                    this.comboxPath.Items.AddRange(config.RecentDir.Dirs.ToArray());
-                }
-            }
-        }
-
-        private void SetRecentDirs(string path)
-        {
-            if (File.Exists(Const.Appsettings))
-            {
-                var config = JsonConvert.DeserializeObject<Appsettings>(File.ReadAllText(Const.Appsettings));
-                if (config.RecentDir?.Dirs?.Count >= 3)
-                {
-                    config.RecentDir.Dirs[2] = path;
-                }
-                else
-                {
-                    config.RecentDir.Dirs.Add(path);
-                }
-                File.WriteAllText(Const.Appsettings, JsonConvert.SerializeObject(config));
-            }
-        }
-
         private void about_Click(object sender, EventArgs e)
         {
             new Form3().ShowDialog();
@@ -300,6 +322,50 @@ namespace Hei.Cnblog.Tools
         private void sourceCode_Click(object sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/gebiwangshushu/hei.cnblog.tools") { UseShellExecute = true });
+        }
+
+        private void treeViewFolder_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                Point ClickPoint = new Point(e.X, e.Y);
+                TreeNode currentNode = treeViewFolder.GetNodeAt(ClickPoint);
+                if (currentNode != null)
+                {
+                    treeViewFolder.SelectedNode = currentNode;
+                    treeViewFolder.SelectedNode.ContextMenuStrip = contextMenuStrip1;
+                }
+            }
+        }
+
+        private void menuItemNewDraft_Click(object sender, EventArgs e)
+        {
+            if (treeViewFolder.SelectedNode != null)
+            {
+                loadBlogAccount();
+                var fileFullName = treeViewFolder.SelectedNode.Name;
+                if (fileFullName.Contains(".md", StringComparison.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        processFile(fileFullName);
+                        var title = Path.GetFileNameWithoutExtension(fileFullName);
+                        var content = File.ReadAllText(treeViewFolder.SelectedNode.Name);
+                        var postId = ImageUploader.BlogClient.NewPost(title, content, new List<string> { "[Markdown]" }, false, DateTime.Now);
+                        var postUrl = $"https://www.cnblogs.com/{ImageUploader.BlogClient.BlogConnectionInfo.BlogID}/p/{postId}.html";
+                        echo($"快速编辑文章成功：{postUrl}");
+                        Process.Start(new ProcessStartInfo(postUrl) { UseShellExecute = true });
+                    }
+                    catch (Exception ex)
+                    {
+                        echo(ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("暂只支持上传markdown文件(.md)快速编辑发布");
+                }
+            }
         }
     }
 }

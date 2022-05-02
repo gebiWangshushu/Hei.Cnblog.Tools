@@ -45,6 +45,8 @@
             this.ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sourceCode = new System.Windows.Forms.ToolStripMenuItem();
             this.about = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuItemNewDraft = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -53,6 +55,7 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -123,6 +126,7 @@
             this.treeViewFolder.Size = new System.Drawing.Size(400, 654);
             this.treeViewFolder.TabIndex = 0;
             this.treeViewFolder.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeViewFolder_ItemDrag);
+            this.treeViewFolder.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeViewFolder_MouseDown);
             // 
             // IconList
             // 
@@ -226,6 +230,21 @@
             this.about.Text = "关于";
             this.about.Click += new System.EventHandler(this.about_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemNewDraft});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 56);
+            // 
+            // menuItemNewDraft
+            // 
+            this.menuItemNewDraft.Name = "menuItemNewDraft";
+            this.menuItemNewDraft.Size = new System.Drawing.Size(214, 24);
+            this.menuItemNewDraft.Text = "快速编辑发布此文";
+            this.menuItemNewDraft.Click += new System.EventHandler(this.menuItemNewDraft_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -251,6 +270,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -273,5 +293,7 @@
         private ToolStripMenuItem ToolStripMenuItem;
         private ToolStripMenuItem about;
         private ToolStripMenuItem sourceCode;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem menuItemNewDraft;
     }
 }

@@ -73,7 +73,7 @@
             // 
             // btnComfirm
             // 
-            this.btnComfirm.Location = new System.Drawing.Point(14, 165);
+            this.btnComfirm.Location = new System.Drawing.Point(14, 156);
             this.btnComfirm.Name = "btnComfirm";
             this.btnComfirm.Size = new System.Drawing.Size(415, 29);
             this.btnComfirm.TabIndex = 9;
@@ -103,7 +103,7 @@
             this.linkLabel1.Location = new System.Drawing.Point(12, 9);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(266, 20);
-            this.linkLabel1.TabIndex = 7;
+            this.linkLabel1.TabIndex = 17;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://www.cnblogs.com/xiaxiaolu";
             // 
@@ -113,14 +113,14 @@
             this.blogid.Location = new System.Drawing.Point(12, 31);
             this.blogid.Name = "blogid";
             this.blogid.Size = new System.Drawing.Size(417, 20);
-            this.blogid.TabIndex = 8;
+            this.blogid.TabIndex = 18;
             this.blogid.Text = "博客ID每个账号唯一如上是我的博客园地址，ID为：xiaxiaolu";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 203);
+            this.ClientSize = new System.Drawing.Size(444, 193);
             this.Controls.Add(this.blogid);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.textBlogid);
@@ -134,7 +134,7 @@
             this.MinimizeBox = false;
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "配置账号";
+            this.Text = "配置您的博客园账号";
             this.ResumeLayout(false);
             this.PerformLayout();
 
