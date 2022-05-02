@@ -121,7 +121,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 193);
-            this.ControlBox = false;
             this.Controls.Add(this.blogid);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.textBlogid);

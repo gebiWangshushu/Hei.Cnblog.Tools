@@ -21,9 +21,9 @@ namespace Hei.Cnblog.Tools
             InitializeComponent();
             if (File.Exists(Const.CnblogSettingPath))
             {
-                var config = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(Const.Appsettings));
+                var config = JsonConvert.DeserializeObject<BlogConnectionInfo>(File.ReadAllText(Const.CnblogSettingPath));
                 this.textBlogid.Text = config.BlogID;
-                this.textBlogid.Text = config.Username;
+                this.textUserName.Text = config.Username;
             }
         }
 
