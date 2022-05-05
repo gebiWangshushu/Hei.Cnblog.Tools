@@ -10,6 +10,10 @@ Hei.Cnblog.Tools 是一个帮助你使用md编辑器写文章快速到上传图�
 
 
 
+本项目基于晓晨大佬的：[dotnet-cnblogs-tool](https://github.com/stulzq/dotnet-cnblogs-tool) 
+
+
+
 # 基本使用
 
 ## 第一步、设置 Typora
