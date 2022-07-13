@@ -108,6 +108,7 @@
             this.linkLabel1.TabIndex = 17;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://www.cnblogs.com/xiaxiaolu";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // blogid
             // 
@@ -127,21 +128,22 @@
             this.linkLabel2.TabIndex = 19;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "https://i.cnblogs.com/settings#enableServiceAccess";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 173);
+            this.label4.Location = new System.Drawing.Point(11, 173);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(415, 20);
+            this.label4.Size = new System.Drawing.Size(447, 20);
             this.label4.TabIndex = 20;
-            this.label4.Text = "点击上面链接去到底部“Metaweblog访问令牌”->\"查看\"获取";
+            this.label4.Text = "点击链接到底部其他设置->“Metaweblog访问令牌”->\"查看\"获取";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 237);
+            this.ClientSize = new System.Drawing.Size(461, 237);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.blogid);
